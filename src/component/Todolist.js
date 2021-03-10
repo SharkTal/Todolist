@@ -5,6 +5,10 @@ import { DatePicker, Space } from 'antd';
 import "react-datepicker/dist/react-datepicker.css";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import SaveIcon from '@material-ui/icons/Save';
+import DeleteIcon from "@material-ui/icons/Delete"
+import Icon from '@material-ui/core/Icon';
+
 
 
 const Todolist = () => {
@@ -28,28 +32,24 @@ const Todolist = () => {
     const deleteTodo = () => {
         setTodos(todos.filter((todo, index) => index !== gridRef.current.getSelectedNodes()[0].childIndex))
     }
-
+    // antd method
     const handleDateChange = (date, dateString) => {
         setTodo({ ...todo, date: dateString })
     }
 
     return (
         <div>
-            
-            <TextField name="desc" onChange={inputChanged} value={todo.desc} />
+
+            <TextField label="Description" name="desc" onChange={inputChanged} value={todo.desc} />
             <DatePicker
                 label="Date"
                 type="date"
                 selected={todo.date}
                 onChange={(date, dateString) => handleDateChange(date, dateString)} />
-            Priority: <input type="text" onChange={inputChanged} value={todo.priority} name="priority" />
-            <button onClick={addItem}>Add Todo</button>
-            <button onClick={deleteTodo}>Delete</button>
-
+            <TextField label="Priority" name="priority" onChange={inputChanged} value={todo.priority} />
+            <Button onClick={addItem} variant="contained" color="primary" startIcon={<SaveIcon />}>Add</Button>
+            <Button onClick={deleteTodo} variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete</Button>
             <TodoTable todos={todos} gridRef={gridRef} />
-
-            
-
         </div>
     )
 }
