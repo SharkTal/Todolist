@@ -1,11 +1,14 @@
 import React, { useRef, useState } from 'react';
 import TodoTable from './TodoTable';
-
-import DatePicker from "react-datepicker";
+import 'antd/dist/antd.css';
+import { DatePicker, Space } from 'antd';
 import "react-datepicker/dist/react-datepicker.css";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+
 
 const Todolist = () => {
-    const [todo, setTodo] = useState({ desc: '', date: new Date(),priority: '' });
+    const [todo, setTodo] = useState({ desc: '', date: '', priority: '' });
     const [todos, setTodos] = useState([]);
 
     const inputChanged = (e) => {
@@ -16,35 +19,37 @@ const Todolist = () => {
         setTodo({ desc: '', priority: '' });
     }
 
-    const deleteMe = (index) =>{
-        const filteredArray= todos.filter((todo,i) => i !== index)
+    const deleteMe = (index) => {
+        const filteredArray = todos.filter((todo, i) => i !== index)
         setTodos(filteredArray)
     }
 
     const gridRef = useRef();
     const deleteTodo = () => {
-        setTodos(todos.filter((todo, index) =>  index!==gridRef.current.getSelectedNodes()[0]. childIndex))
+        setTodos(todos.filter((todo, index) => index !== gridRef.current.getSelectedNodes()[0].childIndex))
     }
 
-    const handleDateChange = date => {
-        setTodo({...todo, date: date})
+    const handleDateChange = (date, dateString) => {
+        setTodo({ ...todo, date: dateString })
     }
- 
 
     return (
         <div>
-            Desc: <input type="text" onChange={inputChanged} value={todo.desc} name="desc" />
-            Date: <DatePicker
-                    
-                    dateFormat="yyyy/MM/dd"
-                     selected={todo.date} 
-                     onChange={date => handleDateChange(date)} />
+            
+            <TextField name="desc" onChange={inputChanged} value={todo.desc} />
+            <DatePicker
+                label="Date"
+                type="date"
+                selected={todo.date}
+                onChange={(date, dateString) => handleDateChange(date, dateString)} />
             Priority: <input type="text" onChange={inputChanged} value={todo.priority} name="priority" />
             <button onClick={addItem}>Add Todo</button>
             <button onClick={deleteTodo}>Delete</button>
 
             <TodoTable todos={todos} gridRef={gridRef} />
-          
+
+            
+
         </div>
     )
 }
