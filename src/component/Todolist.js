@@ -1,57 +1,64 @@
-import React, { useRef, useState } from 'react';
-import TodoTable from './TodoTable';
-import 'antd/dist/antd.css';
-import { DatePicker, Space } from 'antd';
-import "react-datepicker/dist/react-datepicker.css";
-import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import SaveIcon from '@material-ui/icons/Save';
-import DeleteIcon from "@material-ui/icons/Delete"
-
-
-
-
-const Todolist = () => {
-    const [todo, setTodo] = useState({ desc: '', date: '', priority: '' });
+import React, { useState, useRef } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-material.css';
+function Todolist() {
+    const [todo, setTodo] = useState({ description: '', date: '', priority: '' });
     const [todos, setTodos] = useState([]);
-
-    const inputChanged = (e) => {
-        setTodo({ ...todo, [e.target.name]: e.target.value })
-    }
-    const addItem = () => {
-        setTodos([todo, ...todos]);
-        setTodo({ desc: '', priority: '' });
-    }
-
-    const deleteMe = (index) => {
-        const filteredArray = todos.filter((todo, i) => i !== index)
-        setTodos(filteredArray)
-    }
-
     const gridRef = useRef();
+    const inputChanged = (event) => {
+        setTodo({ ...todo, [event.target.name]: event.target.value });
+    }
+
+    const addTodo = (event) => {
+        setTodos([...todos, todo]);
+    }
+
     const deleteTodo = () => {
-        setTodos(todos.filter((todo, index) => index !== gridRef.current.getSelectedNodes()[0].childIndex))
+        //gridRef.current.getSelectedNodes()[0].childIndex;
+
+        if (gridRef.current.getSelectedNodes().length > 0)
+            setTodos(todos.filter((todo, index) => index !== gridRef.current.getSelectedNodes()[0].childIndex))
+        else
+            alert('Select row first!')
     }
-    // antd method
-    const handleDateChange = (date, dateString) => {
-        setTodo({ ...todo, date: dateString })
-    }
+
+    const columns = [
+        { headerName: 'Description', field: 'description', sortable: true, filter: true, editable: true, floatingFilter: true },
+        { headerName: 'Date', field: 'date', sortable: true, filter: true, editable: true, floatingFilter: true },
+        {
+            headerName: 'Priority', field: 'priority', sortable: true, filter: true, editable: true,
+            cellStyle: params => params.value === 'High' ? { color: 'red' } : { color: 'green' }, floatingFilter: true
+        }
+    ]
 
     return (
         <div>
+            <input type="text" onChange={inputChanged} placeholder="Description" name="description" value={todo.description} />
+            <input type="date" onChange={inputChanged} placeholder="Date" name="date" value={todo.date} />
+            <input type="text" onChange={inputChanged} placeholder="Priority" name="priority" value={todo.priority} />
+            <button onClick={addTodo}>Add</button>
+            <button onClick={deleteTodo}>Delete</button>
+            <div className="ag-theme-material" style={{ width: '50%', height: '700px', margin: 'auto' }}>
+                <AgGridReact
+                    columnDefs={columns}
+                    rowData={todos}
+                    rowSelection="single"
+                    ref={gridRef}
+                    onGridReady={params => gridRef.current = params.api}
+                    animateRows={true}
+                />
+            </div>
 
-            <TextField label="Description" name="desc" onChange={inputChanged} value={todo.desc} />
-            <DatePicker
-                label="Date"
-                type="date"
-                selected={todo.date}
-                onChange={(date, dateString) => handleDateChange(date, dateString)} />
-            <TextField label="Priority" name="priority" onChange={inputChanged} value={todo.priority} />
-            <Button onClick={addItem} variant="contained" color="primary" startIcon={<SaveIcon />}>Add</Button>
-            <Button onClick={deleteTodo} variant="contained" color="secondary" startIcon={<DeleteIcon />}>Delete</Button>
-            <TodoTable todos={todos} gridRef={gridRef} />
+            <table>
+                <tbody>
+                    {
+                        todos.map((todo, index) => <tr key={index}><td>{todo.description}</td><td>{todo.date}</td><td>{todo.priority}</td></tr>)
+                    }
+                </tbody>
+            </table>
         </div>
-    )
-}
+    );
+};
 
 export default Todolist;
