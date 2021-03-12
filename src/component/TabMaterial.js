@@ -62,7 +62,7 @@ export default function SimpleTabs() {
                 <Tabs value={value} onChange={handleChange} aria-label="simple tabs example">
                     <Tab label="Home" {...a11yProps(0)} />
                     <Tab label="My todos" {...a11yProps(1)} />
-                    <Tab label="Item Three" {...a11yProps(2)} />
+                    
                 </Tabs>
             </AppBar>
             <TabPanel value={value} index={0}>
@@ -71,9 +71,7 @@ export default function SimpleTabs() {
             <TabPanel value={value} index={1}>
                 <Todolist />
       </TabPanel>
-            <TabPanel value={value} index={2}>
-                Item Three
-      </TabPanel>
+            
         </div>
     );
 }
