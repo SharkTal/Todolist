@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
+import TodoTable from './TodoTable';
+
 function Todolist() {
     const [todo, setTodo] = useState({ description: '', date: '', priority: '' });
     const [todos, setTodos] = useState([]);
@@ -39,7 +41,8 @@ function Todolist() {
             <input type="text" onChange={inputChanged} placeholder="Priority" name="priority" value={todo.priority} />
             <button onClick={addTodo}>Add</button>
             <button onClick={deleteTodo}>Delete</button>
-            <div className="ag-theme-material" style={{ width: '50%', height: '700px', margin: 'auto' }}>
+            {/* Table component */}
+            {/* <div className="ag-theme-material" style={{ width: '50%', height: '700px', margin: 'auto' }}>
                 <AgGridReact
                     columnDefs={columns}
                     rowData={todos}
@@ -48,15 +51,17 @@ function Todolist() {
                     onGridReady={params => gridRef.current = params.api}
                     animateRows={true}
                 />
-            </div>
+            </div> */}
 
-            <table>
+            {/* <table>
                 <tbody>
                     {
                         todos.map((todo, index) => <tr key={index}><td>{todo.description}</td><td>{todo.date}</td><td>{todo.priority}</td></tr>)
                     }
                 </tbody>
-            </table>
+            </table> */}
+
+            <TodoTable todos={todos} gridRef={gridRef} />
         </div>
     );
 };
