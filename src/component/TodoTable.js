@@ -5,7 +5,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-material.css';
 
 const columns = [
-    { headerName: "Description", field: "desc", sortable: true, filter: true, editable: true, flex:1, autoHeight: true, wrapText: true },
+    { headerName: "Description", field: "description", sortable: true, filter: true, editable: true, flex:1, autoHeight: true, wrapText: true },
     { headName: "Date", field: "date", sortable: true, filter: true, editable: true, flex:1},
     { headName: "Priority", field: "priority", sortable: true, filter: true, editable: true,
       cellStyle: params => params.value === "High" ? {color: 'red'} : {color: 'black'}  
