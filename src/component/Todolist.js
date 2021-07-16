@@ -34,25 +34,6 @@ function Todolist() {
             <input type="text" onChange={inputChanged} placeholder="Priority" name="priority" value={todo.priority} />
             <button onClick={addTodo}>Add</button>
             <button onClick={deleteTodo}>Delete</button>
-            {/* Table component */}
-            {/* <div className="ag-theme-material" style={{ width: '50%', height: '700px', margin: 'auto' }}>
-                <AgGridReact
-                    columnDefs={columns}
-                    rowData={todos}
-                    rowSelection="single"
-                    ref={gridRef}
-                    onGridReady={params => gridRef.current = params.api}
-                    animateRows={true}
-                />
-            </div> */}
-
-            {/* <table>
-                <tbody>
-                    {
-                        todos.map((todo, index) => <tr key={index}><td>{todo.description}</td><td>{todo.date}</td><td>{todo.priority}</td></tr>)
-                    }
-                </tbody>
-            </table> */}
 
             <TodoTable todos={todos} gridRef={gridRef} />
         </div>
