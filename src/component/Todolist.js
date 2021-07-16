@@ -25,14 +25,7 @@ function Todolist() {
             alert('Select row first!')
     }
 
-    const columns = [
-        { headerName: 'Description', field: 'description', sortable: true, filter: true, editable: true, floatingFilter: true },
-        { headerName: 'Date', field: 'date', sortable: true, filter: true, editable: true, floatingFilter: true },
-        {
-            headerName: 'Priority', field: 'priority', sortable: true, filter: true, editable: true,
-            cellStyle: params => params.value === 'High' ? { color: 'red' } : { color: 'green' }, floatingFilter: true
-        }
-    ]
+
 
     return (
         <div>
